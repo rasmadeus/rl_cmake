@@ -9,17 +9,22 @@ option(USE_MYMATH "Use tutorial provided math implementation" ON)
 if(USE_MYMATH)
   add_subdirectory(MathFunctions)
   list(APPEND EXTRA_LIBS MathFunctions)
-  list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
 endif()
 
 add_executable(Tutorial tutorial.cxx)
 
 target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 
-target_include_directories(Tutorial PUBLIC 
-    "${PROJECT_BINARY_DIR}"
-    ${EXTRA_INCLUDES}
+target_include_directories(
+    Tutorial
+    PUBLIC "${PROJECT_BINARY_DIR}"
 )
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+install(TARGETS Tutorial DESTINATION bin)
+install(
+    FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h"
+    DESTINATION include
+)
